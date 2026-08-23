@@ -1,0 +1,25 @@
+name: Build Windows application
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "horner_calculator.py"
+      - "build_windows.bat"
+      - ".github/workflows/build-windows.yml"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install pyinstaller
+      - run: pyinstaller --noconfirm --clean --onefile --windowed --name HornerCalculator horner_calculator.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HornerCalculator-Windows
+          path: dist/HornerCalculator.exe
