@@ -13,7 +13,4 @@ bằng hai phương pháp:
 
 Mở trực tiếp tệp `index.html` bằng trình duyệt. Dự án không cần cài đặt thư viện.
 
-## Đưa lên GitHub Pages
-
-Trong repository GitHub, vào **Settings > Pages**, chọn **Deploy from a branch**, sau đó chọn nhánh `main` và thư mục `/ (root)`.
 
