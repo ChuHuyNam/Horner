@@ -1,2 +1,19 @@
-# Horner
-none
+# Tính giá trị đa thức bằng Horner và phương pháp lặp
+
+Ứng dụng web tính giá trị đa thức bậc 5
+
+`f(x) = a1*x^5 + a2*x^4 + a3*x^3 + a4*x^2 + a5*x + a6`
+
+bằng hai phương pháp:
+
+- Lặp trực tiếp qua từng hạng tử.
+- Sơ đồ Horner với công thức `b[k] = b[k-1] * x + a[k]`.
+
+## Chạy trên máy
+
+Mở trực tiếp tệp `index.html` bằng trình duyệt. Dự án không cần cài đặt thư viện.
+
+## Đưa lên GitHub Pages
+
+Trong repository GitHub, vào **Settings > Pages**, chọn **Deploy from a branch**, sau đó chọn nhánh `main` và thư mục `/ (root)`.
+
