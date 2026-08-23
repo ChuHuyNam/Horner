@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tính giá trị đa thức bậc 5 bằng phương pháp lặp và thuật toán Horner.">
+  <title>Tính đa thức - Horner và phương pháp lặp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <section class="intro">
+      <div>
+        <p class="eyebrow">Đa thức bậc 5</p>
+        <h1>Tính giá trị đa thức<br>bằng hai phương pháp</h1>
+      </div>
+      <p class="lead">Nhập các hệ số và giá trị <i>x</i>. Hệ thống sẽ tính song song bằng phương pháp lặp trực tiếp và sơ đồ Horner.</p>
+    </section>
+
+    <section class="workspace" aria-label="Công cụ tính đa thức">
+      <form id="polynomial-form" class="input-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-number">01</p>
+            <h2>Dữ liệu đầu vào</h2>
+          </div>
+          <button class="text-button" id="example-button" type="button">Dùng ví dụ</button>
+        </div>
+
+        <div class="formula" id="formula-preview" aria-label="Công thức đa thức bậc năm">
+          <math display="block"><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msub><mi>a</mi><mn>1</mn></msub><msup><mi>x</mi><mn>5</mn></msup><mo>+</mo><msub><mi>a</mi><mn>2</mn></msub><msup><mi>x</mi><mn>4</mn></msup><mo>+</mo><msub><mi>a</mi><mn>3</mn></msub><msup><mi>x</mi><mn>3</mn></msup><mo>+</mo><msub><mi>a</mi><mn>4</mn></msub><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msub><mi>a</mi><mn>5</mn></msub><mi>x</mi><mo>+</mo><msub><mi>a</mi><mn>6</mn></msub></mrow></math>
+        </div>
+
+        <div class="coefficient-grid">
+          <label>a<sub>1</sub><input name="a1" type="number" step="any" value="1" required aria-label="Hệ số a1"></label>
+          <label>a<sub>2</sub><input name="a2" type="number" step="any" value="-2" required aria-label="Hệ số a2"></label>
+          <label>a<sub>3</sub><input name="a3" type="number" step="any" value="3" required aria-label="Hệ số a3"></label>
+          <label>a<sub>4</sub><input name="a4" type="number" step="any" value="-4" required aria-label="Hệ số a4"></label>
+          <label>a<sub>5</sub><input name="a5" type="number" step="any" value="5" required aria-label="Hệ số a5"></label>
+          <label>a<sub>6</sub><input name="a6" type="number" step="any" value="-6" required aria-label="Hệ số a6"></label>
+        </div>
+
+        <div class="x-row">
+          <label for="x-value">Giá trị x</label>
+          <input id="x-value" name="x" type="number" step="any" value="2" required>
+        </div>
+
+        <button class="primary-button" type="submit">
+          <span>Tính giá trị đa thức</span><span aria-hidden="true">→</span>
+        </button>
+        <p class="error" id="form-error" role="alert"></p>
+      </form>
+
+      <section class="result-panel" id="results" aria-live="polite">
+        <div class="panel-heading">
+          <div>
+            <p class="section-number">02</p>
+            <h2>Kết quả</h2>
+          </div>
+          <span class="status" id="match-status">Hai kết quả trùng khớp</span>
+        </div>
+
+        <div class="answer-block">
+          <div id="evaluated-label"><math><mrow><mi>f</mi><mo>(</mo><mn>2</mn><mo>)</mo></mrow></math></div>
+          <strong id="final-result">0</strong>
+        </div>
+
+        <div class="method-tabs" role="tablist" aria-label="Chọn phương pháp">
+          <button id="tab-horner" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="panel-horner">Horner</button>
+          <button id="tab-iteration" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-iteration">Phương pháp lặp</button>
+        </div>
+
+        <div id="panel-horner" class="method-content" role="tabpanel" aria-labelledby="tab-horner">
+          <div class="method-summary">
+            <p>Biến đổi</p>
+            <div class="math-expression" id="horner-expression"></div>
+          </div>
+          <div class="hand-calculation">
+            <p class="subsection-title">Sơ đồ tính bằng tay</p>
+            <div class="synthetic-wrap">
+              <table class="synthetic-table" aria-label="Sơ đồ Horner tính bằng tay">
+                <colgroup>
+                  <col span="6" class="calculation-column">
+                  <col class="summary-column">
+                </colgroup>
+                <tbody id="synthetic-steps"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>k</th><th>Hệ số a<sub>k</sub></th><th>Phép tính b<sub>k</sub> = b<sub>k-1</sub>x + a<sub>k</sub></th><th>b<sub>k</sub></th></tr></thead>
+              <tbody id="horner-steps"></tbody>
+            </table>
+          </div>
+          <p class="operation-count">5 phép nhân · 5 phép cộng</p>
+        </div>
+
+        <div id="panel-iteration" class="method-content" role="tabpanel" aria-labelledby="tab-iteration" hidden>
+          <div class="method-summary">
+            <p>Công thức</p>
+            <div class="math-expression" id="direct-expression"></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>i</th><th>Hạng tử</th><th>Giá trị</th><th>Tổng tích lũy</th></tr></thead>
+              <tbody id="iteration-steps"></tbody>
+            </table>
+          </div>
+          <p class="operation-count">Tính lần lượt 6 hạng tử rồi cộng dồn</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer><p>Bài tập phương pháp tính · Thuật toán Horner</p></footer>
+  <script src="script.js"></script>
+</body>
+</html>
+
