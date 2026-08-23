@@ -12,5 +12,11 @@ bằng hai phương pháp:
 ## Chạy trên máy
 
 Mở trực tiếp tệp `index.html` bằng trình duyệt. Dự án không cần cài đặt thư viện.
+## Ứng dụng Windows
 
+- Chạy bằng Python: `python horner_calculator.py`.
+- Tạo file chạy độc lập: mở `build_windows.bat`.
+- File sau khi build nằm tại `dist/HornerCalculator.exe` và không yêu cầu máy nhận cài Python.
+
+GitHub Actions cũng tự động tạo artifact `HornerCalculator-Windows` mỗi khi mã Python được cập nhật trên nhánh `main`.
 
