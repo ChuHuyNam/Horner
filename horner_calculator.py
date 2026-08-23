@@ -72,7 +72,7 @@ class HornerCalculator(tk.Tk):
 
         input_group = ttk.LabelFrame(container, text="Nhập hệ số", padding=14)
         input_group.pack(fill="x")
-        for column in range(7):
+        for column in range(6):
             input_group.columnconfigure(column, weight=1)
 
         for index in range(6):
@@ -83,11 +83,11 @@ class HornerCalculator(tk.Tk):
             entry.pack(fill="x", pady=(4, 0), ipady=4)
             self.entries.append(entry)
 
-        x_cell = ttk.Frame(input_group)
-        x_cell.grid(row=0, column=6, sticky="ew", padx=5)
-        ttk.Label(x_cell, text="x").pack(anchor="center")
-        self.x_entry = ttk.Entry(x_cell, width=10, justify="center", font=("Segoe UI", 11))
-        self.x_entry.pack(fill="x", pady=(4, 0), ipady=4)
+        x_row = ttk.Frame(input_group)
+        x_row.grid(row=1, column=0, columnspan=6, pady=(16, 0))
+        ttk.Label(x_row, text="Giá trị x:").pack(side="left", padx=(0, 8))
+        self.x_entry = ttk.Entry(x_row, width=16, justify="center", font=("Segoe UI", 11))
+        self.x_entry.pack(side="left", ipady=4)
 
         ttk.Button(container, text="Tính", command=self.calculate).pack(pady=15)
         self.bind("<Return>", lambda _event: self.calculate())
